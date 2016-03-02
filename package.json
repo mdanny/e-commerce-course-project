@@ -1,0 +1,28 @@
+{
+  "name": "e_commerce_course_project",
+  "version": "1.0.0",
+  "description": "This is an ecommerce website",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CristianChris/e-commerce-course-project.git"
+  },
+  "keywords": [
+    "Nodejs",
+    "MongoDB",
+    "Stripe",
+    "Payment"
+  ],
+  "author": "Cristian Cartofeanu && Daniel Macrinici",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CristianChris/e-commerce-course-project/issues"
+  },
+  "homepage": "https://github.com/CristianChris/e-commerce-course-project#readme",
+  "dependencies": {
+    "express": "^4.13.4"
+  }
+}
