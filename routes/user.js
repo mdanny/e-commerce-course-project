@@ -20,7 +20,7 @@ router.get('/profile', function(req, res, next){
 		res.render('accounts/profile', { user: user });
 	});
 });
-
+ 
 router.get('/signup', function(req, res, next){
 	res.render('accounts/signup', {
 		errors: req.flash('errors')
@@ -33,6 +33,7 @@ router.post('/signup', function(req, res, next){
 	user.profile.name = req.body.name;
 	user.email = req.body.email;
 	user.password = req.body.password;
+	user.profile.picture = user.gravatar();
 
 	User.findOne({ email: req.body.email }, function(err, existingUser){
 		if(existingUser) {
@@ -41,9 +42,11 @@ router.post('/signup', function(req, res, next){
 		} else {
 			user.save(function(err, user){
 				if (err) return next(err);
-
-				return res.redirect('/');
-			})
+				req.logIn(user, function(err){
+					if(err) return next(err);
+					res.redirect('/profile');
+				})
+			});
 		}
 	});
 });
