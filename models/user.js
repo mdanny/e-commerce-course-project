@@ -16,7 +16,7 @@ var UserSchema = new mongoose.Schema({
 	address: String,
 	history: [{
 		date: Date,
-		paid: { type: Number, default 0},
+		paid: { type: Number, default: 0},
 		// item: { type: Schema.Types.ObjectId, ref: ''}
 	}]
 })
@@ -42,4 +42,4 @@ UserSchema.methods.comparePassword = function(password){
 	return bcrypt.compareSync(password, this.password);
 };
 
-module.exports = mongoose.module('User', UserSchema);
+module.exports = mongoose.model('User', UserSchema);
