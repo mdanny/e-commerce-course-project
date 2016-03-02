@@ -17,7 +17,7 @@ mongoose.connect('mongodb://root:qwerty123@ds019048.mlab.com:19048/e-commerce-co
 
 // Middleware
 app.use(morgan('dev'));
-app.use(bodyParser.json());
+app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/create-user', function(req, res, next){
@@ -28,7 +28,7 @@ app.post('/create-user', function(req, res, next){
 	user.email = req.body.email;
 
 	user.save(function(err){
-		if (err) next(err);
+		if (err) return next(err);
 		res.json('Succesfully created a new user');
 	});
 });
