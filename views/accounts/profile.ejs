@@ -6,8 +6,13 @@
 			<img class="img-circle img-responsive img-center" src="<%= user.profile.picture %>" alt="">
 			<br	/>
 			<p>Name: <%=user.profile.name %></p>
-			<p>Email: <%=user.profile.email %></p>
-			<p>Address: <%=user.profile.address %></p>
+			<p>Email: <%=user.email %></p>
+			<% if (user.address === "" || typeof user.address === 'undefined') { %>
+				<p>Address: <span style="color: #c0392b; font-weight: bold">You have no address</span></p>
+			<% } else { %>
+			<p>Address: <%=user.address %></p>
+			<% } %>
+			<a href="/edit-profile" class="btn btn-primary btn-lg">Edit profile</a>
 		</div>
 	</div>	
 </div>
