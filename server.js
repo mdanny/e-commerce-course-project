@@ -8,11 +8,13 @@ var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var flash = require('express-flash');
 
+
+var secret = require('./config/secret')
 var User = require('./models/user');
 
 var app = express();
 
-mongoose.connect('mongodb://root:qwerty123@ds019048.mlab.com:19048/e-commerce-course-project', function(err){
+mongoose.connect(secret.database, function(err){
 	if (err) {
 		console.log(err);
 	} else {
@@ -29,7 +31,7 @@ app.use(cookieParser());
 app.use(session({
 	resave: true,
 	saveUninitialized: true,
-	secret:"cartocri"
+	secret: secret.secretKey
 }));
 app.use(flash());
 
@@ -42,7 +44,7 @@ var userRoutes = require('./routes/user');
 app.use(mainRoutes);
 app.use(userRoutes);  
 
-app.listen(3000, function(err) {
+app.listen(secret.port, function(err) {
 	if (err) throw err;
-	console.log("Server is Running");
+	console.log("Server is Running" + secret.port);
 })
