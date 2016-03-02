@@ -23,7 +23,9 @@
   },
   "homepage": "https://github.com/CristianChris/e-commerce-course-project#readme",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "express": "^4.13.4",
+    "mongoose": "^4.4.5",
     "morgan": "^1.7.0"
   }
 }
