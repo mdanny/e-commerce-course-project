@@ -19,7 +19,7 @@ $(function(){
 				for (var i = 0; i < data.length; i++){
 					var html = "";
 					html += '<div class="col-md-4">';
-					html += '<a href="/product/' +  data[i]._source._id  + '">'
+					html += '<a href="/product/' +  data[i]._id  + '">'
 					html += '<dir class="thumbnail">';
 					html += '<img src="' +  data[i]._source.image  + '">';
 					html += '<div class="caption">';
