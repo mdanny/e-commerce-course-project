@@ -27,15 +27,15 @@
 					<input type="hidden" name="product_id" id="quantity" value="<%= product._id  %>"></input>
 					<input type="hidden" name="price" id="priceHidden" value="<%= product.price  %>"></input>
 
-					<input type="text" name="item" 	class="form-control"  value="<%= product.name  %>"></input>
-					<input type="text" name="priceValue" id="priceValue"  class="form-control" value="<%= product.price  %>"></input>
+					<input readonly type="text" name="item" 	class="form-control"  value="<%= product.name  %>"></input>
+					<input readonly type="text" name="priceValue" id="priceValue"  class="form-control" value="<%= product.price %>"></input>
 				</div>
 
 				<% if (user) { %>
 					<button type="submit" class="btn btn-primary btn-lg">Add to Cart</button>
 				<% } else {  %>
 					<a href='/signup' class="btn btn-warning btn-lg">Signup to begin buying</a> 
-				<%}  %>
+				<% }  %>
 			</form>			
 		</div>
 	</div>
