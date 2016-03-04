@@ -1,21 +1,23 @@
+
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title>Jumbotron Template for Bootstrap</title>
-		<!-- <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"> -->
-		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="/css/custom.css">
-	</head>
+  <head>
+    <title>Jumbotron Template for Bootstrap</title>
+    <!-- <link rel="stylesheet" href="/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/custom.css">
+  </head>
 
-	<body>
+  <body>
 
-		<% include ./partials/navbar %>
-		<div class="container">
-		<!-- Example row of columns -->
-		<%- body -%>
-			 
-		</div> <!-- /container -->
+    <% include ./partials/navbar %>
 
 
-		<% include ./partials/footer %>
-	</body>
+      <!-- Example row of columns -->
+      <%- body -%>
+
+      <!-- /container -->
+      <% include ./partials/footer %>
+      <% include ./partials/javascriptOnly %>
+  </body>
 </html>
