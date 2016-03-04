@@ -41,6 +41,11 @@ app.use(flash()); //flash is dependent on session and cookie
 app.use(passport.initialize());
 app.use(passport.session()); //this is for serialize and deserialize
 
+app.use(function(req, res, next) {
+    res.locals.user = req.user;
+    next();
+});
+
 //app.set('views', __dirname+ '/views');
 app.engine('ejs', engine);
 app.set('view engine', 'ejs');
