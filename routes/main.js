@@ -3,6 +3,9 @@ var User = require('../models/user');
 var Product = require('../models/product');
 var Cart = require('../models/cart');
 
+var stripe = require('stripe') ('sk_test_KOqGXCWtI5fVAq3jgLF93rJF');
+
+
 function paginate(req, res, next) {
 
 	var perPage = 9;
@@ -149,6 +152,21 @@ router.get('/product/:id', function(req, res, next){
 			product: product
 		});
 	});
+});
+
+router.post('/payment', function(req,res,next){
+	var stripeToken = req.body.stripeToken;
+	var currentCharges = Math.round(req.body.stripeMoney * 100);
+	stripe.customers.create({
+		source: stripeToken,
+	}).then(function(customer) {
+		return stripe.charges.create({
+		  amount: currentCharges,
+		  currency: 'usd',
+		  customer: customer.id
+		});
+	});
+	res.redirect('/profile');
 });
 
 module.exports = router;
