@@ -1,5 +1,6 @@
 var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy();
+var LocalStrategy = require('passport-local').Strategy;
+var User = require('../models/user');
 
  //serialize and deserialize
 passport.serializeUser(function(user, done) {
@@ -28,7 +29,7 @@ passport.use('local-login', new LocalStrategy({
         }
 
         if (!user.comparePassword(password)) {
-            return done(null, false, req.flash('loginMessage', 'Oops! Wrong password'))''
+            return done(null, false, req.flash('loginMessage', 'Oops! Wrong password'));
         }
 
         return done(null, user);
