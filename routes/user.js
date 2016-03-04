@@ -36,6 +36,7 @@ router.post('/signup', function(req, res, next){
 	user.profile.name = req.body.name;
 	user.email = req.body.email;
 	user.password = req.body.password;
+	user.profile.picture = user.gravatar();
 
 	User.findOne({ email: req.body.email }, function(err, existingUser){
 		if(existingUser) {
@@ -44,11 +45,19 @@ router.post('/signup', function(req, res, next){
 		} else {
 			user.save(function(err, user){
 				if (err) return next(err);
-				return res.redirect('/')
+
+				req.login(user, function(err) {
+					if (err) return next(err);
+					res.redirect('/profile');
+				});
 
 			});
 		}
 	});
 });
 
+router.get('/logout', function(req, res, next) {
+	req.logout(); //logout the current request
+	res.redirect('/');
+});
 module.exports = router;
