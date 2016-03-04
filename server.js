@@ -8,7 +8,7 @@ var session = require('express-session'); // store data like user-id in temporar
 var cookieParser = require('cookie-parser'); //will parse the cookie header and handle cookie separation and encoding
 // take the session data, encrypt it and send it to browser
 var flash = require('express-flash');
-var MongoStore = require('connect-mongo')(session); //we need to pass the session object to mongostore, so it
+var MongoStore = require('connect-mongo/es5')(session); //we need to pass the session object to mongostore, so it
 //will know it will be based on the session express library
 var passport = require('passport');
 
@@ -38,8 +38,10 @@ app.use(session({
     store: new MongoStore({url: secret.database, autoReconnect: true})
 }));
 app.use(flash()); //flash is dependent on session and cookie
+app.use(passport.initialize());
+app.use(passport.session()); //this is for serialize and deserialize
 
-
+//app.set('views', __dirname+ '/views');
 app.engine('ejs', engine);
 app.set('view engine', 'ejs');
 
