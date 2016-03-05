@@ -1,5 +1,6 @@
 var router = require('express').Router();
 var User = require('../models/user');
+var Product = require('../models/product');
 
 router.get("/", function(req, res){
 	res.render('main/home');
