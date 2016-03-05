@@ -195,7 +195,7 @@ This command will install all the dependencies from the file **package.json**.
 A **package.json** file contains meta data about your app or module. Most importantly, it includes the list of dependencies to install from npm when running npm install . If you're familiar with Ruby, it's similar to a Gemfile.
 
 
-
+```
 ├── api
 ├── config
 ├── models
@@ -248,7 +248,7 @@ A **package.json** file contains meta data about your app or module. Most import
 │   │               └── mime-types
 │   │                   └── node_modules
 │   │                       └── mime-db
-
+```
 
 
 
