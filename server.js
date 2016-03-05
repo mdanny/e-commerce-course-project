@@ -14,6 +14,7 @@ var passport = require('passport');
 
 var secret = require('./config/secret');
 var User = require('./models/user');
+var Category = require('./models/category');
 
 var app = express();
 
@@ -46,7 +47,14 @@ app.use(function(req, res, next) {
     next();
 });
 
-//app.set('views', __dirname+ '/views');
+app.use(function(req, res, next) {
+    Category.find({}, function(err, categories) {
+        if (err) return next(err);
+        res.locals.categories = categories;
+        next();
+    });
+});
+
 app.engine('ejs', engine);
 app.set('view engine', 'ejs');
 
