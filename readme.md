@@ -37,19 +37,19 @@ In **deserialize** function we provide as first argument of deserialize function
 * Also add an anonymous function and then we want to validate it, pass the req, email, password and callback
 * in the anonymous function, we want to find in our DB if the user is found by the matching email
 * When we return the last callback, it returns the user object
-* later on we can request req.user_id
+* later on we can request ```req.user_id```
 * req.user.profile.name
 * in every request, this object (user) will be stored in a session, so it can be used in any page that requires you to log in
 
 * Lastly - the validation function that checks if the user is authenticated, if not redirects to login page
 
-###Now, in routers/user.js we added two routes:
+###Now, in ```routers/user.js``` we added two routes:
 
-* router.get(‘/login’)
-* router.post(‘/login’)
+* ```router.get(‘/login’)```
+* ```router.post(‘/login’)```
 * we are using the middleware we created, namely local-login in passport and then we pass in an object to this second parameter, successRedirect to profile url, or if failure, than redirect to /login url
 
-###In server.js
+###In ```server.js```
 
 * We have to initialize the passport and also we need to add passport.session
 * Passport.session acts as a middleware to alter the req object and change the user value that is currently the session id from the client cookie, into the true deserialize user object
@@ -57,7 +57,7 @@ In **deserialize** function we provide as first argument of deserialize function
 
 ###Now, we have login route, and profile
 
-* In server.js when we add the following line:
+* In ```server.js``` when we add the following line:
 ```javascript
 app.use(function(req, res, next) {
     res.locals.user = req.user;
@@ -66,11 +66,11 @@ app.use(function(req, res, next) {
 ```
 * the user object will get available for all the routes 
 * this is instead of specifying manually (redundantly) in every needed route, an user object, like: 
-* user: req.user
+* ```user: req.user```
 * every route will have the user object by default
-* res.locals.user , locals = local variable and user is the object we want to use and we want to make it equal to req.user, because once logged in you will have req.user based on serialize and deserialize method
+* ```res.locals.user``` , ```locals = local``` variable and user is the object we want to use and we want to make it equal to req.user, because once logged in you will have req.user based on serialize and deserialize method
 
-* The req.login from the user.js file, in the router.post (‘/signup’) route, is essentially adding the session to the server and the cookie to the browser by using the login function
+* The req.login from the user.js file, in the router.post ```(‘/signup’)``` route, is essentially adding the session to the server and the cookie to the browser by using the login function
 * the user object obj is based on the result of the new user creation which we created here: User.findOne({email: req.body,email…
 * the user, save object, is then passed to the login function, so the user will have the session and cookie on the browser and the session on the server
 
@@ -86,7 +86,7 @@ app.use(function(req, res, next) {
 
 * the user types in the req.body.name, or the request to be changed, and according to the name of the body, the user.profile data structure is being modified accordingly
 * then simply the user data is saved and flash the message, and store the flash in the session 
-* so that it can be used in other routes that have success as the name of the flash as is the route router.get(‘/edit-profile’) which contains the actual render of the edit-profile.ejs file
+* so that it can be used in other routes that have success as the name of the flash as is the route ```router.get(‘/edit-profile’)``` which contains the actual render of the edit-profile.ejs file
 * redirect user back to edit-profile page
 
 ##Laying down new models:
@@ -100,18 +100,18 @@ app.use(function(req, res, next) {
 
 
 Now, we are going to create routes for adding product category, and it will be under admin.js, because this is the responsibility of only an admin
-* admin/add-category route will get a page from the server with an extra data which is message
+* ```admin/add-category``` route will get a page from the server with an extra data which is message
 * next, is a post route and it is relying on Category Schema because we instantiate a new object from the category
 * next we want to save the data in the category name field and it will be equal to input
 * save data to DB
 
-Create .ejs for the specific route
+Create ```.ejs``` for the specific route
 
 We will add a security layer, so that only admin account can access the page of add-category!
 
 * now we will add another middleware to our express app, so that it learns how to use a new variable which is categories, because we want to render the categories on the nav-bar
 * first in the app.use (category) middleware specified in server.js
-* first we want to find all the categories (find({})), search through every document in DB
+* first we want to find all the categories ```(find({}))```, search through every document in DB
 * if err return callback with err
 * store the list of categories in a local var called categories
 
@@ -126,11 +126,11 @@ Create our first API, so we can store all product data in the database in api.js
 
 
 ###In main.js
-* in route /products/:id - a parameter like a double dot is used if we want to get to a specific url
-* so instead of adding router.get(‘/products/foods_id’), router.get(‘/products/gadgets_id’), router.get(‘/products/books_id’) we just add the : parameter
-* req.params, so it could be accessed in dependance of the id of the category
-* req.params.id, is the way to access the parameter in the routes (:id)
-* populate - we can only use populate if the data type is an object id (Schema.Types,ObjectId)
+* in route ```/products/:id``` - a parameter like a double dot is used if we want to get to a specific url
+* so instead of adding ```router.get(‘/products/foods_id’)```, ```router.get(‘/products/gadgets_id’)```, ```router.get(‘/products/books_id’)``` we just add the ```:``` parameter
+* ```req.params```, so it could be accessed in dependance of the id of the category
+* ```req.params.id```, is the way to access the parameter in the routes (:id)
+* ```populate``` - we can only use populate if the data type is an object id (Schema.Types,ObjectId)
 * populate shows not only the id but also the information about the category
 * exec executes the anonymous function on all of the above methods, e.g. on all the .find methods
 
@@ -162,7 +162,7 @@ Create our first API, so we can store all product data in the database in api.js
 
 
 ###Next we are creating a route where we will search for products;
-* router.post(‘/search’) pass the req.body.q alongside with the request
+* ```router.post(‘/search’)``` pass the req.body.q alongside with the request
 
 Npm is the node package manager and you will need to install the following modules using it:
 
@@ -200,54 +200,41 @@ A **package.json** file contains meta data about your app or module. Most import
 ├── config
 ├── models
 ├── node_modules
-│   ├── ansi-regex
-│   ├── ansi-styles
 │   ├── async
-│   │   ├── dist
-│   │   └── lib
-│   ├── base64-url
-│   ├── bcrypt-nodejs
-│   ├── bluebird
-│   │   └── js
-│   │       ├── browser
-│   │       └── release
-│   ├── body-parser
+│   ├── connect-mongo
+│   ├── cookie
+│   ├── cookie-parser
+│   ├── cookie-signature
+│   ├── ejs
+│   ├── ejs-mate
+│   ├── elasticsearch
+│   ├── express
 │   │   ├── lib
-│   │   │   └── types
+│   ├── express-flash
+│   │   └── lib
+│   ├── express-session
+│   │   └── session
+│   ├── faker
+│   ├── mongodb
+│   │   └── lib
+│   ├── mongoosastic
+│   │   ├── example
+│   ├── mongoose
+│   │   ├── examples
+│   │   ├── lib
+│   ├── morgan
 │   │   └── node_modules
-│   │       ├── bytes
-│   │       ├── content-type
-│   │       ├── debug
-│   │       │   └── node_modules
-│   │       │       └── ms
-│   │       ├── depd
-│   │       │   └── lib
-│   │       │       ├── browser
-│   │       │       └── compat
-│   │       ├── http-errors
-│   │       │   └── node_modules
-│   │       │       ├── inherits
-│   │       │       └── statuses
-│   │       ├── iconv-lite
-│   │       │   ├── encodings
-│   │       │   │   └── tables
-│   │       │   └── lib
-│   │       ├── on-finished
-│   │       │   └── node_modules
-│   │       │       └── ee-first
-│   │       ├── qs
-│   │       │   ├── dist
-│   │       │   ├── lib
-│   │       │   └── test
-│   │       ├── raw-body
-│   │       │   └── node_modules
-│   │       │       └── unpipe
-│   │       └── type-is
-│   │           └── node_modules
-│   │               ├── media-typer
-│   │               └── mime-types
-│   │                   └── node_modules
-│   │                       └── mime-db
+│   ├── passport
+│   │   └── lib
+├── public
+│   ├── css
+│   └── js
+├── routes
+└── views
+    ├── accounts
+    ├── admin
+    ├── main
+    └── partials
 ```
 
 
@@ -257,16 +244,21 @@ A **package.json** file contains meta data about your app or module. Most import
 
 
 
+##Instalation
 
+In order to run our web application you will need to do several steps:
 
-For running this web application you will need to do several steps:
-
-0. clone the repository (git clone / wget)
-1. install nodejs (brew install node)
-2. install elasticsearch (brew install elasticsearch)
+0. clone the repository (```git clone / wget```)
+1. install nodejs (brew install node for OSX users)
+2. install elasticsearch (brew install elasticsearch for OSX users)
 3. from the terminal cd into the "e-commerce-course-project"
-4. from the terminal run x
-5. from the terminal run "elasticsearch" (OSX users)
-6. from the terminal in a new tab in the same location "e-commerce-course-project" run node server.js
-7. open this URL http://localhost:3000 from the browser
+4. Get MongoDB, in our example we used free clound mongoDB services that offers [www.mlab.com](https://mlab.com)
+5. Get Stripe accaunt www.stripe.com
+6. configure the application
+⋅⋅* edit ```config/secret.js``` with your mongoDB credentials that can be created on [www.mlab.com](https://mlab.com)
+⋅⋅* edit ```public/js/custom.js``` with your Stripe test public key that can be created [www.stripe.com](https://dashboard.stripe.com/account/apikeys)
+..* edit ```/routes/main.js``` with your Stripe test secrete key that can be created on [www.stripe.com](https://dashboard.stripe.com/account/apikeys)
+7. from the terminal run "elasticsearch" (OSX users)
+8. from the terminal in a new tab from the same location "e-commerce-course-project" run node server.js
+9. open this URL [http://localhost:3000](http://localhost:3000) from the browser
 
