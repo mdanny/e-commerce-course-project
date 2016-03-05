@@ -9,5 +9,10 @@ var ProductSchema = new Schema({
   image: String
 });
 
+ProductSchema.plugin(mongoosastic, {
+  hosts: [
+    'localhost:9200'
+  ]
+});
 
 module.exports = mongoose.model('Product', ProductSchema);
