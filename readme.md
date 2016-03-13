@@ -2,11 +2,11 @@
 
 ##Saving users session:
 
-The session stores data like user-id in temporary memory store, temp, local, mongodb or redis.
+The session stores data like ```user-id``` in temporary memory store, temp, local, mongodb or redis.
 The cookie parser will parse the cookie header and handle cookie separation and encoding, take the session data, encrypt it and send it to browser.
 
 * install db for storing the session (library connect-mongo)
-* mongo store library is depending on express-sesion, w/o express-session (session) it won’t work)
+* mongo store library is depending on express-sesion, without express-session (session) it won’t work)
 * instead of saving anything to a temporary memory store, we want to save the session into MongoDB database
 * every session will be saved into DB, which is MongoDB
 * MongoStore in our case specifically stores the session on the server-side 
@@ -14,16 +14,15 @@ The cookie parser will parse the cookie header and handle cookie separation and 
 ##Now, on the authentication library part:
 
 * The library we will use is passport.js
-* We will use passport.js
-* if we want to use passport library in one of our routes, which is login, we need to configure it first
-* we can think of it as setting up a new rule in a config file, so that login route will use it (middleware)
+* If we want to use passport library in one of our routes, which is login, we need to configure it first
+* We can think of it as setting up a new rule in a config file, so that login route will use it (middleware)
 * We require two libraries in the passport file:
 * passport - for authentication
-* localstrategy - it is simply one of passport's libraries, for the sake of local login
+* Localstrategy - it is simply one of passport's libraries, for the sake of local login
 * There are three sections in this file:
-* serialize/deserialize user objects
-* middleware that will process the login mechanism
-* custom function to validate if a user is logged in or not
+* Serialize/deserialize and user objects
+* Middleware that will process the login mechanism
+* Custom function to validate if a user is logged in or not
 
 **Serialization** is the process of translating data structures or object states into a format that can be stored. We want to translate the data structure, which is user object and we want to translate it into a format that can be stored. Thus, we will store it in connect-mongo. So, the key of this object is provided into the 2nd argument of the callback function in serializeUser, which is user._id. Serialize function will be saved into session and it is used to retrieve the whole object via deserialize function.
 
@@ -187,8 +186,7 @@ Npm is the node package manager and you will need to install the following modul
     "stripe": "^4.4.0"
   }
 ```
-(recommended to run the following command:
-```npm init``` from the project directory.
+(recommended to run the following command: ```npm init``` from the project directory.)
 
 This command will install all the dependencies from the file **package.json**.
 
@@ -252,8 +250,8 @@ In order to run our web application you will need to do several steps:
 1. install nodejs (brew install node for OSX users)
 2. install elasticsearch (brew install elasticsearch for OSX users)
 3. from the terminal cd into the "e-commerce-course-project"
-4. Get MongoDB, in our example we used free clound mongoDB services that offers [www.mlab.com](https://mlab.com)
-5. Get Stripe accaunt www.stripe.com
+4. get MongoDB, in our example we used free clound mongoDB services that offers [www.mlab.com](https://mlab.com)
+5. get Stripe accaunt www.stripe.com
 6. configure the application
 ⋅⋅* edit ```config/secret.js``` with your mongoDB credentials that can be created on [www.mlab.com](https://mlab.com)
 ⋅⋅* edit ```public/js/custom.js``` with your Stripe test public key that can be created [www.stripe.com](https://dashboard.stripe.com/account/apikeys)
