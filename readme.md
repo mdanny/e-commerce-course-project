@@ -260,3 +260,5 @@ In order to run our web application you will need to do several steps:
 8. from the terminal in a new tab from the same location "e-commerce-course-project" run node server.js
 9. open this URL [http://localhost:3000](http://localhost:3000) from the browser
 
+
+## I would like to thank Arash Yahya for his course on Udemy that guided this small project
