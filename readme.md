@@ -35,6 +35,22 @@ This project resembles an ecommerce website with full features such as user auth
 ## Installation
 ---
 
+In order to run our web application you will need to do several steps:
+
+0. clone the repository (```git clone / wget```)
+1. install nodejs (brew install node for OSX users)
+2. install elasticsearch (brew install elasticsearch for OSX users)
+3. from the terminal cd into the "e-commerce-course-project"
+4. get MongoDB, in our example we used free clound mongoDB services that offers [www.mlab.com](https://mlab.com)
+5. get Stripe accaunt www.stripe.com
+6. configure the application
+⋅⋅* edit ```config/secret.js``` with your mongoDB credentials that can be created on [www.mlab.com](https://mlab.com)
+⋅⋅* edit ```public/js/custom.js``` with your Stripe test public key that can be created [www.stripe.com](https://dashboard.stripe.com/account/apikeys)
+..* edit ```/routes/main.js``` with your Stripe test secrete key that can be created on [www.stripe.com](https://dashboard.stripe.com/account/apikeys)
+7. from the terminal run "elasticsearch" (OSX users)
+8. from the terminal in a new tab from the same location "e-commerce-course-project" run node server.js
+9. open this URL [http://localhost:3000](http://localhost:3000) from the browser
+
 ## User Authentication
 ---
 
@@ -417,23 +433,8 @@ A **package.json** file contains meta data about your app or module. Most import
 
 
 
-##Instalation
-
-In order to run our web application you will need to do several steps:
-
-0. clone the repository (```git clone / wget```)
-1. install nodejs (brew install node for OSX users)
-2. install elasticsearch (brew install elasticsearch for OSX users)
-3. from the terminal cd into the "e-commerce-course-project"
-4. get MongoDB, in our example we used free clound mongoDB services that offers [www.mlab.com](https://mlab.com)
-5. get Stripe accaunt www.stripe.com
-6. configure the application
-⋅⋅* edit ```config/secret.js``` with your mongoDB credentials that can be created on [www.mlab.com](https://mlab.com)
-⋅⋅* edit ```public/js/custom.js``` with your Stripe test public key that can be created [www.stripe.com](https://dashboard.stripe.com/account/apikeys)
-..* edit ```/routes/main.js``` with your Stripe test secrete key that can be created on [www.stripe.com](https://dashboard.stripe.com/account/apikeys)
-7. from the terminal run "elasticsearch" (OSX users)
-8. from the terminal in a new tab from the same location "e-commerce-course-project" run node server.js
-9. open this URL [http://localhost:3000](http://localhost:3000) from the browser
 
 
-## I would like to thank Arash Yahya for his course on Udemy that guided this small project
+
+
+## We would like to thank Arash Yahya for his course on Udemy that guided this small project
