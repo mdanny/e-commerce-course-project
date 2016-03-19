@@ -1,3 +1,178 @@
+
+# Ecommerce website project
+
+This project is using the following technology stack:
+
+  - Node.js Runtime Environment
+  - Express framework (web framework for Node.js)
+  - EJS template engine (embedded javascript)
+  - MongoDB database (document based)
+  - Elastic Search (opensource search library)
+  - jQuery (for the frontend)
+  - Stripe (payment gateway)
+
+This project resembles an ecommerce website with full features such as user authentication and authorization, session managing, search and payment features. Our team is: [person1], [person2], [person3], [person4] and [person5][df1]
+
+> The README is structured as a self-contained
+> book, where each chapter reveals details
+> of implementation and functionality of
+> different features within the website.
+> The project created by us is only for
+> illustration purpose, however, if wanted
+> we may launch it in production.
+
+### Version
+1.0
+
+### Table of Contents
+
+1. [Installation](#installation)
+2. [User Authentication](#user-authentication)
+3. [Products and Category functionality](#products-and-category-functionality)
+4. [Cart and payment feature](#cart-and-payment-feature)
+5. [Facebook login](#facebook-login)
+
+## Installation
+---
+
+## User Authentication
+---
+
+#### User Schema
+For user authentication we have used *morgan* library with the aim of logging the user requests to the webserver (e.g. access to different routes).
+For the User Schema we use mongoose, which is an *Object Relational Mapper*, which is like a virtual object database, that can be used within the node itself. Basically it connects our Node.js project with MongoDB database, without the need to implicitly connect them using additional code.
+
+The User Schema is defined as follows:
+```javascript
+var UserSchema = new mongoose.Schema({
+    email: { type: String, unique: true, lowercase: true},
+    password: String,
+
+    profile:{
+        name: { type: String, default: ''},
+        picture: { type: String, default: ''}
+    },
+
+    address: String,
+    history: [{
+        date: Date,
+        paid: { type: Number, default: 0},
+    }]
+})
+```
+From the Schema we can derive that the User entity is described by five characteristics:
+1. email
+2. password
+3. profile
+4. address
+5. history
+
+In the next chapter we will explain how these characteristics are implemented and used.
+
+#### MongoDB
+Configure Database with MongoLab
+
+#### Usage of EJS
+Sed vitae nisl mauris. Mauris at enim laoreet risus faucibus aliquet. Vestibulum varius lorem et felis bibendum, sit amet convallis arcu vulputate. Praesent eget odio eget odio ultricies euismod. Ut non justo viverra, placerat tortor ac, sollicitudin lacus. Mauris at semper neque, nec porta dui. Aenean metus ligula, euismod ac sapien non, pulvinar suscipit justo. Cras sit amet eros finibus, laoreet est quis, ultricies ante. Fusce lacinia lacinia purus non egestas. Aliquam at urna nisi. Etiam vitae scelerisque quam.
+#### Adding Twitter Bootstrap
+Aenean tempus neque non neque suscipit fermentum. Nullam lacus metus, scelerisque eu leo id, tristique aliquet velit. Donec purus diam, scelerisque eu ullamcorper vestibulum, eleifend id nisi. Duis nec egestas nibh. Praesent lobortis ut magna vitae dignissim. Nunc felis arcu, interdum a interdum aliquam, viverra eget ligula. Donec tempus rutrum sem, sit amet laoreet dui rhoncus et. In hac habitasse platea dictumst. Ut porta sed quam sit amet efficitur. Cras nec neque nisi. Phasellus vitae sagittis lorem. Nulla orci lorem, maximus ut sagittis id, venenatis et metus. Curabitur condimentum venenatis dolor, quis cursus tellus efficitur sit amet. Sed id facilisis justo. Fusce finibus est nec sem blandit, quis sollicitudin arcu tristique.
+
+
+#### Signup and Login
+Vivamus euismod ipsum et pretium posuere. Ut imperdiet pulvinar massa, vitae ultrices magna pretium quis. Phasellus lacinia pellentesque est, eget varius tortor mattis at. Nullam fringilla ipsum pulvinar lacus tempus, eu sollicitudin sapien posuere. Aenean massa massa, ullamcorper a rutrum eu, consequat et enim. Vivamus orci diam, sodales at ex in, tempus vulputate mauris. Fusce finibus dui quam, a eleifend ipsum ornare id. Nullam tincidunt ornare ex.
+
+
+#### Cookie and Session usage
+Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse potenti. Donec diam quam, pretium quis rutrum et, pharetra ut ligula. Donec ut sem sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porttitor, felis at viverra vulputate, tortor dui dictum tortor, quis iaculis purus enim cursus massa. Morbi dui neque, semper ut mauris in, feugiat sodales neque. Donec et ex justo. Fusce id felis et mauris iaculis ullamcorper. Vestibulum sagittis auctor ante, ac aliquet libero rhoncus vel. Pellentesque at eros sit amet enim sollicitudin aliquet. Nunc eget venenatis metus. Vivamus non enim et dolor pretium egestas vitae id nulla. Quisque vel nisi est.
+
+
+
+## Products and Category functionality
+---
+
+#### Product and Category models
+Proin at enim eget felis dapibus aliquam quis vitae tortor. Morbi dapibus tellus nisl, vitae tincidunt tellus eleifend vitae. Suspendisse blandit ex a ultricies lacinia. Nulla varius posuere erat, non scelerisque magna vulputate vitae. Cras mi nunc, maximus vel facilisis ac, mattis a augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sodales nisl eros. Morbi rutrum rhoncus fermentum. Nunc at odio justo. Donec consectetur dui vitae diam fermentum vestibulum.
+
+
+#### The Admin route
+Cras aliquam mi sapien, vitae sollicitudin est convallis sed. Sed a purus odio. Quisque non dolor ante. Suspendisse euismod consequat finibus. Praesent ac sem suscipit, aliquet metus sit amet, luctus augue. Aenean in ultricies purus, id aliquet dolor. Ut risus massa, finibus in ex vel, varius tristique felis. Aenean imperdiet ornare magna, a volutpat dolor aliquam sit amet. Proin vitae tincidunt libero, a aliquet diam. Aenean tempor tincidunt leo sed auctor. Maecenas leo dolor, elementum id dolor eget, maximus porttitor ante.
+
+
+#### Async waterfall model
+In interdum enim convallis eleifend consectetur. Nunc id mi nibh. Nullam sit amet leo porta, scelerisque dolor vitae, lacinia ex. Aenean dictum justo dictum, consequat dolor a, fermentum orci. Donec non tellus vestibulum, venenatis urna at, pellentesque lectus. Ut id fringilla elit. Suspendisse egestas tortor augue. Aenean auctor condimentum augue in commodo. Donec auctor dignissim nunc ut ultricies. Phasellus at nisi nibh. Nunc consequat mi ac sagittis ullamcorper. Fusce erat ante, ultrices porta laoreet ut, dignissim a tortor. Curabitur non ante et augue ultrices aliquam vitae non arcu. Sed consequat gravida sem, quis ultricies dolor sagittis vel.
+
+
+#### Faker API usage
+Duis dictum pulvinar quam. Ut et fermentum ante. Ut laoreet sem id pulvinar mollis. Cras non felis eget metus tempus semper non ut tellus. Duis venenatis lectus ut est fringilla dictum. Mauris egestas, lacus ac sagittis vestibulum, diam sapien semper est, at interdum ex orci id turpis. Suspendisse pulvinar eros eu velit ullamcorper mattis et et odio. Pellentesque ut urna ac lorem egestas venenatis. In laoreet suscipit vestibulum. Sed aliquet vitae leo egestas interdum. Aliquam sit amet lorem tincidunt dolor ultricies elementum. Suspendisse potenti. Aenean libero urna, elementum vehicula consequat nec, accumsan eu neque. Nulla a mauris vestibulum, lobortis ligula blandit, feugiat turpis. Proin facilisis erat in libero blandit, vulputate aliquet purus blandit.
+
+
+#### Elastic Search
+Phasellus vel sapien et eros bibendum varius. Mauris porta elementum justo. Quisque convallis egestas gravida. Morbi a fringilla lorem. Nulla faucibus nisl ac ex efficitur feugiat. Suspendisse velit ipsum, placerat eu nibh in, eleifend iaculis nisl. Nulla tincidunt tempor ornare. Phasellus placerat augue a egestas eleifend. Fusce quis eros pulvinar, placerat mauris eu, tempor mauris.
+
+
+
+## Cart and payment feature
+---
+#### Cart Schema
+Maecenas ut leo magna. Vivamus vulputate massa nec leo finibus lacinia. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur iaculis risus nec nisi aliquam, id consectetur justo pellentesque. Maecenas ac dui tellus. Aliquam eget vehicula augue. Proin nec bibendum leo, sed varius nunc. Curabitur vitae risus sit amet dolor vulputate lacinia. Integer ultrices ligula sem, ut malesuada dui porta vitae. Nulla tempus, nisl sit amet iaculis commodo, tellus magna ullamcorper nisi, nec interdum enim est eget nisl. Praesent lobortis urna nulla, a tincidunt nisl rutrum in.
+
+
+#### Cart Middleware
+Nullam quis nunc lacus. Donec eget diam ut risus facilisis fermentum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Ut pellentesque magna odio, ac scelerisque arcu rutrum non. Morbi consectetur rhoncus turpis, non mollis nunc ultricies cursus. Quisque feugiat lobortis diam consequat rutrum. Praesent sit amet enim sed eros facilisis viverra eu nec massa. Praesent non elementum leo, quis pretium orci. Nam ut felis eu est pellentesque viverra.
+
+
+#### Cart features
+Aenean a ante sit amet libero luctus feugiat nec ac magna. Mauris at mi erat. Phasellus finibus at purus et efficitur. Aliquam et luctus arcu. Nunc ornare blandit neque vel auctor. Nulla lectus augue, consequat ac nulla quis, lacinia varius urna. Vivamus eu vestibulum turpis. Praesent interdum semper justo ac maximus. Nulla quis lacus in quam lobortis sagittis.
+
+
+#### Payment
+Donec porttitor ante porta leo feugiat vestibulum. Etiam sit amet velit faucibus, sagittis nunc tincidunt, fermentum dolor. Integer tristique varius mi vitae maximus. Morbi viverra lobortis tellus, in sagittis nisi viverra et. Praesent blandit sapien ultrices consequat vestibulum. Morbi in dapibus mi, vitae porta quam. Aenean et turpis in orci pharetra facilisis.
+
+
+#### History page
+Nullam laoreet euismod diam molestie egestas. Proin interdum semper congue. Nulla lobortis tincidunt dolor nec placerat. Integer tristique metus nunc, in varius nibh auctor sed. Vestibulum eu faucibus nisi, quis porta massa. Nam aliquet sapien ac tellus maximus efficitur. Etiam nec sapien nec orci aliquet condimentum. Integer aliquet odio nulla, et congue massa feugiat nec. Phasellus finibus tincidunt tincidunt.
+
+
+## Facebook login
+---
+
+#### Facebook developer settings
+In consectetur tincidunt sodales. Nunc metus nisl, auctor sed convallis tincidunt, porta eu diam. Nullam eget ligula felis. Nunc arcu libero, posuere eu viverra eget, rhoncus aliquet lacus. Vestibulum pulvinar neque sem, vitae facilisis orci egestas et. Phasellus vestibulum leo sit amet neque blandit volutpat. Praesent fringilla nisi gravida, aliquam diam vel, lacinia orci. Nullam a purus mattis, iaculis neque sed, imperdiet nunc. Nullam sagittis arcu non egestas eleifend. Nullam vel facilisis massa. Donec pulvinar metus eu mauris finibus bibendum. Nunc vulputate molestie bibendum. Quisque congue mi sed consectetur ullamcorper.
+
+
+#### Config on Node.js side
+Etiam eleifend ante porta elementum cursus. Integer eu nunc elementum velit luctus aliquet non quis velit. Vivamus auctor venenatis posuere. Morbi bibendum odio dui, vitae blandit lectus tincidunt ut. Duis turpis sapien, dignissim eu nisl at, convallis mollis diam. Aliquam a dolor bibendum, ornare nulla a, accumsan metus. Vestibulum non dui ut arcu aliquam commodo sit amet id erat.
+
+
+#### Adding Middleware
+Duis tincidunt tempor orci, quis ultrices mi gravida accumsan. Sed euismod tortor at auctor venenatis. Quisque interdum elit id ante porta sagittis sed ac lectus. Ut ornare, diam eu finibus dignissim, erat magna feugiat libero, aliquam aliquam ante lacus in quam. Nulla non justo porta, dapibus nisl at, maximus orci. Nunc congue tortor et nisi vehicula pretium. Duis id magna fermentum, interdum justo varius, viverra lorem.
+
+
+
+[//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
+
+
+   [dill]: <https://github.com/joemccann/dillinger>
+   [git-repo-url]: <https://github.com/joemccann/dillinger.git>
+   [john gruber]: <http://daringfireball.net>
+   [@thomasfuchs]: <http://twitter.com/thomasfuchs>
+   [df1]: <http://daringfireball.net/projects/markdown/>
+   [marked]: <https://github.com/chjj/marked>
+   [Ace Editor]: <http://ace.ajax.org>
+   [node.js]: <http://nodejs.org>
+   [Twitter Bootstrap]: <http://twitter.github.com/bootstrap/>
+   [keymaster.js]: <https://github.com/madrobby/keymaster>
+   [jQuery]: <http://jquery.com>
+   [@tjholowaychuk]: <http://twitter.com/tjholowaychuk>
+   [express]: <http://expressjs.com>
+   [AngularJS]: <http://angularjs.org>
+   [Gulp]: <http://gulpjs.com>
+
+   [PlDb]: <https://github.com/joemccann/dillinger/tree/master/plugins/dropbox/README.md>
+   [PlGh]:  <https://github.com/joemccann/dillinger/tree/master/plugins/github/README.md>
+   [PlGd]: <https://github.com/joemccann/dillinger/tree/master/plugins/googledrive/README.md>
+   [PlOd]: <https://github.com/joemccann/dillinger/tree/master/plugins/onedrive/README.md>
+
 #Under construction....
 
 ##Saving users session:
