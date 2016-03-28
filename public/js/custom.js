@@ -59,6 +59,7 @@ $(function(){
 
 					$('#searchResults').append(html);
 				}
+				console.log(data);
 			},
 
 			error: function(error){

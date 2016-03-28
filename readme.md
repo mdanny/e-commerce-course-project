@@ -377,7 +377,7 @@ Npm is the node package manager and you will need to install the following modul
     "stripe": "^4.4.0"
   }
 ```
-(recommended to run the following command: ```npm init``` from the project directory.)
+(recommended to run the following command: ```npm install``` from the project directory.)
 
 This command will install all the dependencies from the file **package.json**.
 
