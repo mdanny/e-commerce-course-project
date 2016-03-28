@@ -11,8 +11,7 @@ var stripe = require('stripe') ('sk_test_KOqGXCWtI5fVAq3jgLF93rJF');
 function paginate(req, res, next) {
 
 	var perPage = 9;
-	var page = req.params.page;
-
+	var page = req.params.page - 1;
 	Product
 		.find()
 		.skip( perPage * page)
@@ -128,7 +127,7 @@ router.get("/", function(req, res, next){
 
 router.get('/page/:page', function (req, res, next){
 	paginate(req,res,next);
-})
+});
 
 router.get('/about', function(req, res){
 	res.render('main/about');
