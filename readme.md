@@ -1,3 +1,8 @@
+app server: 
+IP Address: 46.101.103.101:3000
+
+web server: (proxy)
+IP Address: 46.101.165.140
 
 # Ecommerce website project
 
