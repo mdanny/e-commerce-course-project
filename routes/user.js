@@ -42,7 +42,7 @@ router.post('/signup', function(req, res, next){
 			user.profile.picture = user.gravatar();
 			User.findOne({ email: req.body.email }, function(err, existingUser){
 				if(existingUser) {
-					req.flash('errors', 'Account with that email address already exists');
+					req.flash('errors', 'Account with that email address already exists or try to login with facebook');
 					return res.redirect('/signup');
 				} else {
 					user.save(function(err, user){
