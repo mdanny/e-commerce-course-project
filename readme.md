@@ -107,13 +107,51 @@ Our MongoDB database is a single-node deployment, hosted on ```https://mlab.com`
 | indexSize   | Total size of all indexes created on this database                                                                                                                                                                                                                                                                                                              | 95.81 KB  |
 | fileSize    | Total size of storage files used for this database. This represents the overall storage footprint for this database on disk. For servers running with the smallfiles option (we use this option on our Shared plans), the first file allocated is 16MB, the second 32MB, the third 64MB... until 512MB is reached at which point each subsequent file is 512MB. | 16.00 MB  |
 
+
+Our database is comprised of the following collections:
+
+* carts
+* categories
+* products
+* sessions
+* users
+
+Each collection contains relevant documents, for instance ```carts``` collection contains cart for each of the registerde user. The document schema of ```cart``` model is defined below:
+
+```javascript
+
+{
+    "_id": {
+        "$oid": "cartHashString"
+    },
+    "owner": {
+        "$oid": "userHashString"
+    },
+    "items": [],
+    "total": 0,
+    "__v": 0
+}
+```
+
 #### Usage of EJS
 
 
-Sed vitae nisl mauris. Mauris at enim laoreet risus faucibus aliquet. Vestibulum varius lorem et felis bibendum, sit amet convallis arcu vulputate. Praesent eget odio eget odio ultricies euismod. Ut non justo viverra, placerat tortor ac, sollicitudin lacus. Mauris at semper neque, nec porta dui. Aenean metus ligula, euismod ac sapien non, pulvinar suscipit justo. Cras sit amet eros finibus, laoreet est quis, ultricies ante. Fusce lacinia lacinia purus non egestas. Aliquam at urna nisi. Etiam vitae scelerisque quam.
-#### Adding Twitter Bootstrap
-Aenean tempus neque non neque suscipit fermentum. Nullam lacus metus, scelerisque eu leo id, tristique aliquet velit. Donec purus diam, scelerisque eu ullamcorper vestibulum, eleifend id nisi. Duis nec egestas nibh. Praesent lobortis ut magna vitae dignissim. Nunc felis arcu, interdum a interdum aliquam, viverra eget ligula. Donec tempus rutrum sem, sit amet laoreet dui rhoncus et. In hac habitasse platea dictumst. Ut porta sed quam sit amet efficitur. Cras nec neque nisi. Phasellus vitae sagittis lorem. Nulla orci lorem, maximus ut sagittis id, venenatis et metus. Curabitur condimentum venenatis dolor, quis cursus tellus efficitur sit amet. Sed id facilisis justo. Fusce finibus est nec sem blandit, quis sollicitudin arcu tristique.
+Let’s take a look at how we can use EJS to include repeatable parts of our site (partials) and pass data to our views.
 
+We have to set EJS as the view engine for our Express application using:
+
+app.set('view engine', 'ejs');
+
+Notice how we send a view to the user by using res.render(). It is important to note that res.render() will look in a views folder for the view.
+
+
+#### Adding Twitter Bootstrap
+
+Bootstrap is a frontend framework that provides the necessary CSS and Javascript to make your websites responsive and nice looking. A clear advantage of using Bootstrap is that it accelerates web development process by letting you focus on building the application’s functionality instead of tinkering with (hopefully) cross-browser load of styling rules and media.
+
+In our web application we downloaded Bootstrap CSS/JS and serve it from the application’s public folder.
+
+The general idea in order to serve Bootstrap from the web application instead of using CDN is to first download Bootstrap CSS, icon fonts and JS files, place them somewhere in the application’s “public” folder – the one that will be visible from the internet – and reference them in the view templates.
 
 #### Signup and Login
 Vivamus euismod ipsum et pretium posuere. Ut imperdiet pulvinar massa, vitae ultrices magna pretium quis. Phasellus lacinia pellentesque est, eget varius tortor mattis at. Nullam fringilla ipsum pulvinar lacus tempus, eu sollicitudin sapien posuere. Aenean massa massa, ullamcorper a rutrum eu, consequat et enim. Vivamus orci diam, sodales at ex in, tempus vulputate mauris. Fusce finibus dui quam, a eleifend ipsum ornare id. Nullam tincidunt ornare ex.
@@ -267,36 +305,27 @@ Duis tincidunt tempor orci, quis ultrices mi gravida accumsan. Sed euismod torto
    [PlOd]: <https://github.com/joemccann/dillinger/tree/master/plugins/onedrive/README.md>
 
 
-##Now, on the authentication library part:
+## Authentication library:
 
-* The library we will use is passport.js
+* The library we use is passport.js
 * If we want to use passport library in one of our routes, which is login, we need to configure it first
 * We can think of it as setting up a new rule in a config file, so that login route will use it (middleware)
+
 * We require two libraries in the passport file:
-* passport - for authentication
-* Localstrategy - it is simply one of passport's libraries, for the sake of local login
+  * passport - for authentication
+  * Localstrategy - it is simply one of passport's libraries, for the sake of local login
+
 * There are three sections in this file:
-* Serialize/deserialize and user objects
+* Serialization/deserialization and user objects
 * Middleware that will process the login mechanism
 * Custom function to validate if a user is logged in or not
 
 **Serialization** is the process of translating data structures or object states into a format that can be stored. We want to translate the data structure, which is user object and we want to translate it into a format that can be stored. Thus, we will store it in connect-mongo. So, the key of this object is provided into the 2nd argument of the callback function in serializeUser, which is user._id. Serialize function will be saved into session and it is used to retrieve the whole object via deserialize function.
 
-**Serialize function** means that data from the user object should be stored in the session. In our case, we want to store the id only and the result of the serializeUser method will be attached to the session as request with user._id --> req.user._id. Later on, if we want to access a user that we just logged in, we will type req.user.
+**Serialize function** means that data from the user object should be stored in the session. In our case, we want to store the id only and the result of the serializeUser method will be attached to the session as request with user._id --> req.user._id. Later on, if we want to access a user that we just logged in, we will type ```req.user```.
 
 In **deserialize** function we provide as first argument of deserialize function the same key of user object that was given to done func in serializeUser call. So, the whole object is retrieved with the help of the key.
 
-* First, we want to give middleware a name, so it can be recognized, later on in another route, which is local-login
-* Create a new anonymous instance of LocalStrategy object
-* Then pass it the required fields (LocalStrategy user name and password, we override also email instead of name and also add passReqToCallback)
-* Also add an anonymous function and then we want to validate it, pass the req, email, password and callback
-* in the anonymous function, we want to find in our DB if the user is found by the matching email
-* When we return the last callback, it returns the user object
-* later on we can request ```req.user_id```
-* req.user.profile.name
-* in every request, this object (user) will be stored in a session, so it can be used in any page that requires you to log in
-
-* Lastly - the validation function that checks if the user is authenticated, if not redirects to login page
 
 ###Now, in ```routers/user.js``` we added two routes:
 
@@ -307,7 +336,7 @@ In **deserialize** function we provide as first argument of deserialize function
 ###In ```server.js```
 
 * We have to initialize the passport and also we need to add passport.session
-* Passport.session acts as a middleware to alter the req object and change the user value that is currently the session id from the client cookie, into the true deserialize user object
+* Passport.session acts as a middleware to alter the req object and change the user value that is currently the session id from the client cookie, into the deserialize user object
 
 
 ###Now, we have login route, and profile
