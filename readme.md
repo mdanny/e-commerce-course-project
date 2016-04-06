@@ -140,9 +140,9 @@ Let’s take a look at how we can use EJS to include repeatable parts of our sit
 
 We have to set EJS as the view engine for our Express application using:
 
-app.set('view engine', 'ejs');
+```app.set('view engine', 'ejs');```
 
-Notice how we send a view to the user by using res.render(). It is important to note that res.render() will look in a views folder for the view.
+Notice how we send a view to the user by using ```res.render()```. It is important to note that ```res.render()``` will look in a views folder for the view.
 
 
 #### Adding Twitter Bootstrap
@@ -154,7 +154,55 @@ In our web application we downloaded Bootstrap CSS/JS and serve it from the appl
 The general idea in order to serve Bootstrap from the web application instead of using CDN is to first download Bootstrap CSS, icon fonts and JS files, place them somewhere in the application’s “public” folder – the one that will be visible from the internet – and reference them in the view templates.
 
 #### Signup and Login
-Vivamus euismod ipsum et pretium posuere. Ut imperdiet pulvinar massa, vitae ultrices magna pretium quis. Phasellus lacinia pellentesque est, eget varius tortor mattis at. Nullam fringilla ipsum pulvinar lacus tempus, eu sollicitudin sapien posuere. Aenean massa massa, ullamcorper a rutrum eu, consequat et enim. Vivamus orci diam, sodales at ex in, tempus vulputate mauris. Fusce finibus dui quam, a eleifend ipsum ornare id. Nullam tincidunt ornare ex.
+
+* The library we use is passport.js
+* If we want to use passport library in one of our routes, which is login, we need to configure it first
+* We can think of it as setting up a new rule in a config file, so that login route will use it (middleware)
+
+* We require two libraries in the passport file:
+  1. passport - for authentication
+  2. Localstrategy - it is one of passport's libraries, used for the local login
+
+* There are three sections in this file:
+ 1. Serialization/deserialization and user objects
+ 2. Middleware that will process the login mechanism
+ 3. Custom function to validate if a user is logged in or not
+
+**Serialization** is the process of translating data structures or object states into a format that can be stored. We want to translate the data structure, which is the ```user``` object and we want to translate it into a format that can be stored. Thus, we will store it in connect-mongo. So, the key of this object is provided into the 2nd argument of the callback function in ```serializeUser```, which is ```user._id```. Serialize function will be saved into session and it is used to retrieve the whole object via deserialize function.
+
+**Serialize function** means that data from the user object should be stored in the session. In our case, we want to store the id only and the result of the ```serializeUser()``` method will be attached to the session as request with user._id --> req.user._id. Later on, if we want to access a user that we just logged in, we will type ```req.user```.
+
+In **deserialize function** we provide as first argument the same key of user object that was given to done func in ```serializeUser()``` call. So, the whole object is retrieved with the help of the key.
+
+
+#### In ```routers/user.js``` we added two routes:
+
+1. ```router.get(‘/login’)```
+2. ```router.post(‘/login’)```
+
+* We are using the middleware we created, namely ```local-login``` in passport and then we pass in an object to this second parameter, successRedirect to profile url, or if failure, than redirect to /login url
+
+#### In ```server.js```
+
+* We have to initialize the passport and also we need to add passport.session
+* Passport.session acts as a middleware to alter the req object and change the user value that is currently the session id from the client cookie, into the deserialize user object
+
+As a consequence, we have login  and profile routes.
+
+* In ```server.js``` when we add the following line:
+```javascript
+app.use(function(req, res, next) {
+    res.locals.user = req.user;
+    next();
+});
+```
+* The user object will get available for all the routes
+* This is instead of specifying manually (redundantly) in every needed route, an user object, like ```user: req.user```
+* Every route will have the user object by default
+* ```res.locals.user``` - we want to make it equal to req.user, because once logged in we will have req.user based on serialize and deserialize method
+* The ```req.logIn``` from the user.js file, in the router.post ```(‘/signup’)``` route, is essentially adding the session to the server and the cookie to the browser by using the login function
+* The user object ```obj``` is based on the result of the new user creation which we created here: ```User.findOne({email: req.body,email…```
+* The user as a saved object, is then passed to the login function, so the user will have the cookie on the browser and the session on the server
 
 
 #### Cookie and Session usage
@@ -348,66 +396,13 @@ Duis tincidunt tempor orci, quis ultrices mi gravida accumsan. Sed euismod torto
    [PlOd]: <https://github.com/joemccann/dillinger/tree/master/plugins/onedrive/README.md>
 
 
-## Authentication library:
-
-* The library we use is passport.js
-* If we want to use passport library in one of our routes, which is login, we need to configure it first
-* We can think of it as setting up a new rule in a config file, so that login route will use it (middleware)
-
-* We require two libraries in the passport file:
-  * passport - for authentication
-  * Localstrategy - it is simply one of passport's libraries, for the sake of local login
-
-* There are three sections in this file:
-* Serialization/deserialization and user objects
-* Middleware that will process the login mechanism
-* Custom function to validate if a user is logged in or not
-
-**Serialization** is the process of translating data structures or object states into a format that can be stored. We want to translate the data structure, which is user object and we want to translate it into a format that can be stored. Thus, we will store it in connect-mongo. So, the key of this object is provided into the 2nd argument of the callback function in serializeUser, which is user._id. Serialize function will be saved into session and it is used to retrieve the whole object via deserialize function.
-
-**Serialize function** means that data from the user object should be stored in the session. In our case, we want to store the id only and the result of the serializeUser method will be attached to the session as request with user._id --> req.user._id. Later on, if we want to access a user that we just logged in, we will type ```req.user```.
-
-In **deserialize** function we provide as first argument of deserialize function the same key of user object that was given to done func in serializeUser call. So, the whole object is retrieved with the help of the key.
-
-
-###Now, in ```routers/user.js``` we added two routes:
-
-* ```router.get(‘/login’)```
-* ```router.post(‘/login’)```
-* we are using the middleware we created, namely local-login in passport and then we pass in an object to this second parameter, successRedirect to profile url, or if failure, than redirect to /login url
-
-###In ```server.js```
-
-* We have to initialize the passport and also we need to add passport.session
-* Passport.session acts as a middleware to alter the req object and change the user value that is currently the session id from the client cookie, into the deserialize user object
-
-
-###Now, we have login route, and profile
-
-* In ```server.js``` when we add the following line:
-```javascript
-app.use(function(req, res, next) {
-    res.locals.user = req.user;
-    next();
-});
-```
-* the user object will get available for all the routes
-* this is instead of specifying manually (redundantly) in every needed route, an user object, like:
-* ```user: req.user```
-* every route will have the user object by default
-* ```res.locals.user``` , ```locals = local``` variable and user is the object we want to use and we want to make it equal to req.user, because once logged in you will have req.user based on serialize and deserialize method
-
-* The req.login from the user.js file, in the router.post ```(‘/signup’)``` route, is essentially adding the session to the server and the cookie to the browser by using the login function
-* the user object obj is based on the result of the new user creation which we created here: User.findOne({email: req.body,email…
-* the user, save object, is then passed to the login function, so the user will have the session and cookie on the browser and the session on the server
-
 ##Gravatar functionality
 
-* when user clicks/or is redirected onto its profile page, an avatar called gravatar should be displayed
-* it is made by creating a custom method inside the user model file, called gravatar
-* it checks the size of the avatar, and the existance of the user’s email
-* if the user doesn’t have email for some reason, a default gravatar is provided
-* otherwise, a unique gravatar is created for each user profile based on the md5digest of the user’s email
+* When the user clicks or is redirected to its profile page, an avatar called gravatar should be displayed
+* It is made by creating a custom method inside the user model file, called ```UserSchema.methods.gravatar```
+* This method checks the existance of the size of the avatar and the existance of the user’s email
+* If the user doesn’t have the email for any reason, a default gravatar is provided
+* Otherwise, a unique gravatar is created for each user profile based on the md5digest of the user’s email
 
 ##Edit-profile
 
