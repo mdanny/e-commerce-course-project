@@ -176,10 +176,11 @@ In **deserialize function** we provide as first argument the same key of user ob
 
 
 #### In ```routers/user.js``` we added two routes:
-
+```
 1. router.get(‘/login’)
-2. router.post(‘/login’)
 
+2. router.post(‘/login’)
+```
 * We are using the middleware we created, namely ```local-login``` in passport and then we pass in an object to this second parameter, successRedirect to profile url, or if failure, than redirect to /login url
 
 #### In ```server.js```
