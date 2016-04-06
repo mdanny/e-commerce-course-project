@@ -30,7 +30,7 @@ mongoose.connect(secret.database, function(err){
 // Middleware
 app.use(express.static(__dirname + '/public'));
 app.use(morgan('dev'));
-app.use(bodyParser.json()); 
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(session({
@@ -67,7 +67,7 @@ var apiRoutes = require('./api/api');
 app.use(mainRoutes);
 app.use(userRoutes);
 app.use(adminRoutes);
-app.use('/api', apiRoutes);  
+app.use('/api', apiRoutes);
 
 app.listen(secret.port, function(err) {
 	if (err) throw err;

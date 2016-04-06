@@ -12,7 +12,7 @@ router.post('/search', function(req, res, next){
 	}, function(err,results){
 		if (err) return next(err);
 		res.json(results);
-	}); 
+	});
 });
 
 router.get('/:name', function(req, res, next){
