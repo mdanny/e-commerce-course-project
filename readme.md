@@ -438,7 +438,7 @@ Additionaly, we inserted in the ```./views/main/cart.ejs``` view the html logic 
 
 In order to configure our application, to use facebook authentication, we had to register the application on ```developers.facebook.com```. We followed the steps specified on their official website:
 
-**https://developers.facebook.com/docs/apps/register**
+https://developers.facebook.com/docs/apps/register
 
 
 #### Config on Node.js side
