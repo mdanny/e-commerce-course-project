@@ -36,6 +36,7 @@ This project resembles an ecommerce website with full features such as user auth
 3. [Products and Category functionality](#products-and-category-functionality)
 4. [Cart and payment feature](#cart-and-payment-feature)
 5. [Facebook login](#facebook-login)
+6. [Extra](#extra)
 
 ## Installation
 ---
@@ -218,6 +219,21 @@ Few steps are required to set up the cookie and session functionality:
 * instead of saving anything to a temporary memory store, we want to save the session into MongoDB database
 * every session will be saved into DB, which is MongoDB
 * MongoStore in our case specifically stores the session on the server-side
+
+####Gravatar functionality
+
+* When the user clicks or is redirected to its profile page, an avatar called gravatar should be displayed
+* It is made by creating a custom method inside the user model file, called ```UserSchema.methods.gravatar```
+* This method checks the existance of the size of the avatar and the existance of the user’s email
+* If the user doesn’t have the email for any reason, a default gravatar is provided
+* Otherwise, a unique gravatar is created for each user profile based on the md5digest of the user’s email
+
+####Edit-profile
+
+* the user types in the req.body.name, or the request to be changed, and according to the name of the body, the user.profile data structure is being modified accordingly
+* then simply the user data is saved and flash the message, and store the flash in the session
+* so that it can be used in other routes that have success as the name of the flash as is the route ```router.get(‘/edit-profile’)``` which contains the actual render of the edit-profile.ejs file
+* redirect user back to edit-profile page
 
 
 
@@ -419,16 +435,35 @@ Additionaly, we inserted in the ```./views/main/cart.ejs``` view the html logic 
 ---
 
 #### Facebook developer settings
-In consectetur tincidunt sodales. Nunc metus nisl, auctor sed convallis tincidunt, porta eu diam. Nullam eget ligula felis. Nunc arcu libero, posuere eu viverra eget, rhoncus aliquet lacus. Vestibulum pulvinar neque sem, vitae facilisis orci egestas et. Phasellus vestibulum leo sit amet neque blandit volutpat. Praesent fringilla nisi gravida, aliquam diam vel, lacinia orci. Nullam a purus mattis, iaculis neque sed, imperdiet nunc. Nullam sagittis arcu non egestas eleifend. Nullam vel facilisis massa. Donec pulvinar metus eu mauris finibus bibendum. Nunc vulputate molestie bibendum. Quisque congue mi sed consectetur ullamcorper.
+
+In order to configure our application, to use facebook authentication, we had to register the application on ```developers.facebook.com```. We followed the steps specified on their official website:
+
+```https://developers.facebook.com/docs/apps/register```
 
 
 #### Config on Node.js side
-Etiam eleifend ante porta elementum cursus. Integer eu nunc elementum velit luctus aliquet non quis velit. Vivamus auctor venenatis posuere. Morbi bibendum odio dui, vitae blandit lectus tincidunt ut. Duis turpis sapien, dignissim eu nisl at, convallis mollis diam. Aliquam a dolor bibendum, ornare nulla a, accumsan metus. Vestibulum non dui ut arcu aliquam commodo sit amet id erat.
+
+In ```./config/secret.js``` we have added a facebook object which includes the following information:
+* clientID
+* clientSecret
+* profileFields
+* callbackURL
 
 
 #### Adding Middleware
-Duis tincidunt tempor orci, quis ultrices mi gravida accumsan. Sed euismod tortor at auctor venenatis. Quisque interdum elit id ante porta sagittis sed ac lectus. Ut ornare, diam eu finibus dignissim, erat magna feugiat libero, aliquam aliquam ante lacus in quam. Nulla non justo porta, dapibus nisl at, maximus orci. Nunc congue tortor et nisi vehicula pretium. Duis id magna fermentum, interdum justo varius, viverra lorem.
 
+Inside the ```./config/passport.js``` file we added a ```FacebookStrategy``` middleware. It defines the logic for the facebook authentication mechanism.
+
+Notice that we adhere the middleware defined in the ```passport.js``` to the facebook route defined in the ```./routes/user.js``` file. There, we call the ```authenticate()``` method of the passport library passing as the first argument the ```facebook``` object we created in ```secret.js```.
+
+The authentication mechanism facebook uses implies specifying two routes:
+1. ```javascript router.get('/auth/facebook', passport.authenticate('facebook', {scope: 'email'})); ```
+2. ```javascript outer.get('/auth/facebook/callback', passport.authenticate('facebook', {
+  successRedirect: '/profile',
+  failureRedirect: '/login'
+}))```
+
+The second one is similar to the redirect URI specified in the oAuth protocol which redirects the user to the corresponding views, based on whether it has been authenticated or not.
 
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
@@ -455,51 +490,8 @@ Duis tincidunt tempor orci, quis ultrices mi gravida accumsan. Sed euismod torto
    [PlGd]: <https://github.com/joemccann/dillinger/tree/master/plugins/googledrive/README.md>
    [PlOd]: <https://github.com/joemccann/dillinger/tree/master/plugins/onedrive/README.md>
 
-
-##Gravatar functionality
-
-* When the user clicks or is redirected to its profile page, an avatar called gravatar should be displayed
-* It is made by creating a custom method inside the user model file, called ```UserSchema.methods.gravatar```
-* This method checks the existance of the size of the avatar and the existance of the user’s email
-* If the user doesn’t have the email for any reason, a default gravatar is provided
-* Otherwise, a unique gravatar is created for each user profile based on the md5digest of the user’s email
-
-##Edit-profile
-
-* the user types in the req.body.name, or the request to be changed, and according to the name of the body, the user.profile data structure is being modified accordingly
-* then simply the user data is saved and flash the message, and store the flash in the session
-* so that it can be used in other routes that have success as the name of the flash as is the route ```router.get(‘/edit-profile’)``` which contains the actual render of the edit-profile.ejs file
-* redirect user back to edit-profile page
-
-##Laying down new models:
-
-* category.js
-* create a new Schema, called Category
-* this will be a model for category part
-* we want to separate between the category and a product just in case that a category model grows bigger (hundreds), you don’t want to put in in the product schema
-* next module product
-* a reason why we reference the product based on category ID is so that later on we can populate the data inside the category schema
-
-
-
-
-* now we will add another middleware to our express app, so that it learns how to use a new variable which is categories, because we want to render the categories on the nav-bar
-* first in the app.use (category) middleware specified in server.js
-* first we want to find all the categories ```(find({}))```, search through every document in DB
-* if err return callback with err
-* store the list of categories in a local var called categories
-
-
-###In main.js
-* in route ```/products/:id``` - a parameter like a double dot is used if we want to get to a specific url
-* so instead of adding ```router.get(‘/products/foods_id’)```, ```router.get(‘/products/gadgets_id’)```, ```router.get(‘/products/books_id’)``` we just add the ```:``` parameter
-* ```req.params```, so it could be accessed in dependance of the id of the category
-* ```req.params.id```, is the way to access the parameter in the routes (:id)
-* ```populate``` - we can only use populate if the data type is an object id (Schema.Types,ObjectId)
-* populate shows not only the id but also the information about the category
-* exec executes the anonymous function on all of the above methods, e.g. on all the .find methods
-
-
+## Extra
+---
 Npm is the node package manager and you will need to install the following modules using it:
 
 ```javascript
@@ -571,15 +563,6 @@ A **package.json** file contains meta data about your app or module. Most import
     ├── main
     └── partials
 ```
-
-
-
-
-
-
-
-
-
 
 
 
