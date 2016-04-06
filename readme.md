@@ -225,11 +225,37 @@ Few steps are required to set up the cookie and session functionality:
 ---
 
 #### Product and Category models
-Proin at enim eget felis dapibus aliquam quis vitae tortor. Morbi dapibus tellus nisl, vitae tincidunt tellus eleifend vitae. Suspendisse blandit ex a ultricies lacinia. Nulla varius posuere erat, non scelerisque magna vulputate vitae. Cras mi nunc, maximus vel facilisis ac, mattis a augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sodales nisl eros. Morbi rutrum rhoncus fermentum. Nunc at odio justo. Donec consectetur dui vitae diam fermentum vestibulum.
+
+* The product model:
+```javascript
+var ProductSchema = new Schema({
+  category: { type: Schema.Types.ObjectId, ref: 'Category'},
+  name: String,
+  description: String,
+  price: Number,
+  image: String
+});
+```
+
+* The category model
+```javascript
+var CategorySchema = new Schema({
+  name: { type: String, unique: true, lowercase: true}
+});
+```
 
 
 #### The Admin route
-Cras aliquam mi sapien, vitae sollicitudin est convallis sed. Sed a purus odio. Quisque non dolor ante. Suspendisse euismod consequat finibus. Praesent ac sem suscipit, aliquet metus sit amet, luctus augue. Aenean in ultricies purus, id aliquet dolor. Ut risus massa, finibus in ex vel, varius tristique felis. Aenean imperdiet ornare magna, a volutpat dolor aliquam sit amet. Proin vitae tincidunt libero, a aliquet diam. Aenean tempor tincidunt leo sed auctor. Maecenas leo dolor, elementum id dolor eget, maximus porttitor ante.
+
+Now, the routes for adding product category are located in ```admin.js```, because this is the responsibility of only an admin
+
+* ```admin/add-category``` route will get a page from the server with an extra data which is message
+* We have also a post route and it is relying on Category Schema because we instantiate a new object from the category
+* we want to save the data in the category name field so that it is equal to the input of the request and afterwards save the respective data to the database
+
+We have created the corresponding ```add-category.ejs``` for the above route.
+
+We've also added a security layer, so that only ```admin``` account can access the page of ```add-category```
 
 
 #### Async waterfall model
@@ -422,15 +448,7 @@ Duis tincidunt tempor orci, quis ultrices mi gravida accumsan. Sed euismod torto
 * a reason why we reference the product based on category ID is so that later on we can populate the data inside the category schema
 
 
-Now, we are going to create routes for adding product category, and it will be under admin.js, because this is the responsibility of only an admin
-* ```admin/add-category``` route will get a page from the server with an extra data which is message
-* next, is a post route and it is relying on Category Schema because we instantiate a new object from the category
-* next we want to save the data in the category name field and it will be equal to input
-* save data to DB
 
-Create ```.ejs``` for the specific route
-
-We will add a security layer, so that only admin account can access the page of add-category!
 
 * now we will add another middleware to our express app, so that it learns how to use a new variable which is categories, because we want to render the categories on the nav-bar
 * first in the app.use (category) middleware specified in server.js
