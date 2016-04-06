@@ -36,7 +36,7 @@ This project resembles an ecommerce website with full features such as user auth
 3. [Products and Category functionality](#products-and-category-functionality)
 4. [Cart and payment feature](#cart-and-payment-feature)
 5. [Facebook login](#facebook-login)
-6. [Extra](#extra)
+6. [Extra](#Extra)
 
 ## Installation
 ---
