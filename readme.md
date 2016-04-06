@@ -462,7 +462,8 @@ The authentication mechanism facebook uses implies specifying two routes:
 2.  router.get('/auth/facebook/callback', passport.authenticate('facebook', {
   successRedirect: '/profile',
   failureRedirect: '/login'
-}))```
+}))
+```
 
 The second one is similar to the redirect URI specified in the oAuth protocol which redirects the user to the corresponding views, based on whether it has been authenticated or not.
 
