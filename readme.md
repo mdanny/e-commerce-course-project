@@ -390,7 +390,9 @@ res.locals.cart = total;
 ```
 
 #### Cart features
-Aenean a ante sit amet libero luctus feugiat nec ac magna. Mauris at mi erat. Phasellus finibus at purus et efficitur. Aliquam et luctus arcu. Nunc ornare blandit neque vel auctor. Nulla lectus augue, consequat ac nulla quis, lacinia varius urna. Vivamus eu vestibulum turpis. Praesent interdum semper justo ac maximus. Nulla quis lacus in quam lobortis sagittis.
+The cart displays the products which have been added to it and consequently, they appear as div frames, following the specification within the ```./views/main/cart.ejs``` view. Each item to be bought may be removed by the user and also may be bought. There is also a frame which links with the payment gateway which is **stripe** in our case.
+
+![Cart feature](https://github.com/mdanny/e-commerce-course-project/blob/master/images/Screen%20Shot%202016-04-06%20at%2011.58.35%20PM.png)
 
 
 #### Payment
