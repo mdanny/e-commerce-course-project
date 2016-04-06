@@ -363,12 +363,31 @@ The mapping code maps between product DB and elasticSearch, so that it creates a
 ## Cart and payment feature
 ---
 #### Cart Schema
-Maecenas ut leo magna. Vivamus vulputate massa nec leo finibus lacinia. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur iaculis risus nec nisi aliquam, id consectetur justo pellentesque. Maecenas ac dui tellus. Aliquam eget vehicula augue. Proin nec bibendum leo, sed varius nunc. Curabitur vitae risus sit amet dolor vulputate lacinia. Integer ultrices ligula sem, ut malesuada dui porta vitae. Nulla tempus, nisl sit amet iaculis commodo, tellus magna ullamcorper nisi, nec interdum enim est eget nisl. Praesent lobortis urna nulla, a tincidunt nisl rutrum in.
+
+```javascript
+var CartSchema = new Schema({
+  owner: { type: Schema.Types.ObjectId, ref: 'User'},
+  total: { type: Number, default: 0},
+  items: [{
+    item: { type: Schema.Types.ObjectId, ref: 'Product'},
+    quantity: { type: Number, default: 1},
+    price: { type: Number, default: 1},
+  }]
+});
+```
 
 
 #### Cart Middleware
-Nullam quis nunc lacus. Donec eget diam ut risus facilisis fermentum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Ut pellentesque magna odio, ac scelerisque arcu rutrum non. Morbi consectetur rhoncus turpis, non mollis nunc ultricies cursus. Quisque feugiat lobortis diam consequat rutrum. Praesent sit amet enim sed eros facilisis viverra eu nec massa. Praesent non elementum leo, quis pretium orci. Nam ut felis eu est pellentesque viverra.
 
+The cart middleware is defined in ```./middlewares/middleware.js``` and embeds the whole logic of the cart inside the ```module.exports``` function. The function has a key check:
+```javascript
+if (req.user)
+```
+which checks if the user is authenticated and if positive, it finds the corresponding cart of the assigned owner by querying MongoDB using ```findOne()``` method. An important aspect here is the logic behind the total items variable generation, which is exported as a global variable using the following command, so that it becomes accessible in all the routes:
+```javascript
+//logic
+res.locals.cart = total;
+```
 
 #### Cart features
 Aenean a ante sit amet libero luctus feugiat nec ac magna. Mauris at mi erat. Phasellus finibus at purus et efficitur. Aliquam et luctus arcu. Nunc ornare blandit neque vel auctor. Nulla lectus augue, consequat ac nulla quis, lacinia varius urna. Vivamus eu vestibulum turpis. Praesent interdum semper justo ac maximus. Nulla quis lacus in quam lobortis sagittis.
