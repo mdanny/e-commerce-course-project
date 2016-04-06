@@ -457,8 +457,9 @@ Inside the ```./config/passport.js``` file we added a ```FacebookStrategy``` mid
 Notice that we adhere the middleware defined in the ```passport.js``` to the facebook route defined in the ```./routes/user.js``` file. There, we call the ```authenticate()``` method of the passport library passing as the first argument the ```facebook``` object we created in ```secret.js```.
 
 The authentication mechanism facebook uses implies specifying two routes:
-1. ```javascript router.get('/auth/facebook', passport.authenticate('facebook', {scope: 'email'})); ```
-2. ```javascript outer.get('/auth/facebook/callback', passport.authenticate('facebook', {
+```javascript
+1.  router.get('/auth/facebook', passport.authenticate('facebook', {scope: 'email'}));
+2.  router.get('/auth/facebook/callback', passport.authenticate('facebook', {
   successRedirect: '/profile',
   failureRedirect: '/login'
 }))```
