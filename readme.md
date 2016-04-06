@@ -221,8 +221,51 @@ waterfall([
 
 
 #### Faker API usage
-Duis dictum pulvinar quam. Ut et fermentum ante. Ut laoreet sem id pulvinar mollis. Cras non felis eget metus tempus semper non ut tellus. Duis venenatis lectus ut est fringilla dictum. Mauris egestas, lacus ac sagittis vestibulum, diam sapien semper est, at interdum ex orci id turpis. Suspendisse pulvinar eros eu velit ullamcorper mattis et et odio. Pellentesque ut urna ac lorem egestas venenatis. In laoreet suscipit vestibulum. Sed aliquet vitae leo egestas interdum. Aliquam sit amet lorem tincidunt dolor ultricies elementum. Suspendisse potenti. Aenean libero urna, elementum vehicula consequat nec, accumsan eu neque. Nulla a mauris vestibulum, lobortis ligula blandit, feugiat turpis. Proin facilisis erat in libero blandit, vulputate aliquet purus blandit.
 
+You can use faker from within your browser or on the server with Node. In our case, we present the usage of faker api in node:
+
+```javascript
+ var faker = require('faker');
+
+ //some basic faker methods
+ var name = faker.name.findName();
+ var randomEmail = faker.internet.email();
+ ```
+
+ Let’s say we wanted to create a product on the fly. We want this product to have a category, name, description, price and even an image.
+
+In Node, all we would have to do is:
+
+```javascript
+
+var product = new Product();
+        product.category  = category._id;
+        product.name = faker.commerce.productName();
+        product.description = faker.lorem.paragraph();
+        product.price = faker.commerce.price();
+        product.image = faker.image.image();
+
+        product.save();
+```
+Notice that we create the product object by assigning to the product variable an instance of Product(), which is defined in the ```Product``` model. Consequently, we use the ```faker``` api to use the corresponding methods for generating fake data.
+
+Just like that, we have a whole product object that we can use within our application! The above code will yield:
+
+```javascript
+{
+    "_id": {
+        "$oid": fakerProductHashString
+    },
+    "image": fakerHostedImage,
+    "price": fakerPrice,
+    "description": fakerDescription,
+    "category": {
+        "$oid": fakerCategoryHashString
+    },
+    "__v": mongoDBVersionRevisionKey
+}
+
+```
 
 #### Elastic Search
 
@@ -399,15 +442,6 @@ We will add a security layer, so that only admin account can access the page of 
 * if err return callback with err
 * store the list of categories in a local var called categories
 
-##USE a new library ~ Async
-
-* handles asynchronous code
-* we use waterfall models, where a function depends on another chain function
-
-
-Create our first API, so we can store all product data in the database in api.js
-* we want to search for the name of the cateogry, which exists in the DB
-
 
 ###In main.js
 * in route ```/products/:id``` - a parameter like a double dot is used if we want to get to a specific url
@@ -418,14 +452,6 @@ Create our first API, so we can store all product data in the database in api.js
 * populate shows not only the id but also the information about the category
 * exec executes the anonymous function on all of the above methods, e.g. on all the .find methods
 
-
-###Productspage.ejs
-
-* created another rout in main, to display a single page for the specified product, based on the id of the product
-
-
-###Next we are creating a route where we will search for products;
-* ```router.post(‘/search’)``` pass the req.body.q alongside with the request
 
 Npm is the node package manager and you will need to install the following modules using it:
 
