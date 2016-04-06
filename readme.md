@@ -412,7 +412,7 @@ Additionaly, we inserted in the ```./views/main/cart.ejs``` view the html logic 
 
 #### History page
 
-
+![History page](https://github.com/mdanny/e-commerce-course-project/blob/master/images/Screen%20Shot%202016-04-07%20at%2012.20.59%20AM.png)
 
 
 ## Facebook login
