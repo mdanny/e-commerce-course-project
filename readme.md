@@ -396,11 +396,23 @@ The cart displays the products which have been added to it and consequently, the
 
 
 #### Payment
-Donec porttitor ante porta leo feugiat vestibulum. Etiam sit amet velit faucibus, sagittis nunc tincidunt, fermentum dolor. Integer tristique varius mi vitae maximus. Morbi viverra lobortis tellus, in sagittis nisi viverra et. Praesent blandit sapien ultrices consequat vestibulum. Morbi in dapibus mi, vitae porta quam. Aenean et turpis in orci pharetra facilisis.
 
+For the payment process we use ```Stripe``` as the payment gateway. For embeding the gateway in our node application, we add a route in the ```./routes/main.js``` file inserting all the logic of the payment in the ```router.post('/payment')```.
+
+Within this route, the ```stripeToken``` is extracted from the req.body, comprising the inserted sensitive payment data and the token is assigned to a customer (user) and then the payment data matches asynchronously the currently active user cart and its owner, the respective user and furhter updates all the necessary information in the database collection by querying the update MongoDB method:
+
+```javascript
+Cart.update({ owner: user._id }, { $set: { items: [], total: 0 }}, function(err, updated){
+          if(updated) {
+            res.redirect('/profile');
+          }
+        });
+```
+Additionaly, we inserted in the ```./views/main/cart.ejs``` view the html logic for the front-side, which can be found on the official website of stripe.
 
 #### History page
-Nullam laoreet euismod diam molestie egestas. Proin interdum semper congue. Nulla lobortis tincidunt dolor nec placerat. Integer tristique metus nunc, in varius nibh auctor sed. Vestibulum eu faucibus nisi, quis porta massa. Nam aliquet sapien ac tellus maximus efficitur. Etiam nec sapien nec orci aliquet condimentum. Integer aliquet odio nulla, et congue massa feugiat nec. Phasellus finibus tincidunt tincidunt.
+
+
 
 
 ## Facebook login
